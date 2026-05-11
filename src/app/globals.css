@@ -4,94 +4,76 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Smooth scrolling */
+/* ── Smooth base ────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #374151;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Focus ring */
+/* ── Custom scrollbar ───────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+.dark ::-webkit-scrollbar-thumb { background: #374151; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
+/* ── Focus ring ─────────────────────────────────── */
 :focus-visible {
   outline: 2px solid #7c3aed;
   outline-offset: 2px;
+  border-radius: 8px;
 }
 
-/* Radix animation helpers */
-@keyframes slide-in-from-top {
-  from { transform: translateY(-8px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
+/* ── Radix dialog animations ────────────────────── */
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
-}
-
-.animate-in {
-  animation-duration: 200ms;
-  animation-fill-mode: both;
-}
-.fade-in-0 {
-  animation-name: fade-in;
-}
-.zoom-in-95 {
-  animation-name: zoom-in-95;
-}
-@keyframes zoom-in-95 {
-  from { transform: scale(0.95); opacity: 0; }
-  to   { transform: scale(1);    opacity: 1; }
-}
-
-.animate-out {
-  animation-duration: 150ms;
-  animation-fill-mode: both;
-}
-.fade-out-0 {
-  animation-name: fade-out;
 }
 @keyframes fade-out {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
-.zoom-out-95 {
-  animation-name: zoom-out-95;
+@keyframes dialog-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
-@keyframes zoom-out-95 {
-  from { transform: scale(1);    opacity: 1; }
-  to   { transform: scale(0.95); opacity: 0; }
+@keyframes dialog-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+}
+@keyframes zoom-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes zoom-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.96); }
 }
 
-/* Slide animations for Dialog */
-@keyframes slide-in-from-left-half {
-  from { transform: translate(-50%, -48%) scale(0.95); opacity: 0; }
-  to   { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+/* Tailwind animate utilities used by Radix */
+.animate-in  { animation-duration: 200ms; animation-fill-mode: both; }
+.animate-out { animation-duration: 150ms; animation-fill-mode: both; }
+
+.fade-in-0  { animation-name: fade-in; }
+.fade-out-0 { animation-name: fade-out; }
+.zoom-in-95 { animation-name: zoom-in; }
+.zoom-out-95 { animation-name: zoom-out; }
+
+.slide-in-from-left-1\/2  { animation-name: dialog-in; }
+.slide-out-to-left-1\/2   { animation-name: dialog-out; }
+.slide-in-from-top-\[48\%\]  { animation-name: dialog-in; }
+.slide-out-to-top-\[48\%\]   { animation-name: dialog-out; }
+
+/* ── Selection color ────────────────────────────── */
+::selection {
+  background: #7c3aed22;
+  color: inherit;
 }
-@keyframes slide-out-to-left-half {
-  from { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
-  to   { transform: translate(-50%, -48%) scale(0.95); opacity: 0; }
-}
-.slide-in-from-left-1\/2 { animation-name: slide-in-from-left-half; }
-.slide-out-to-left-1\/2  { animation-name: slide-out-to-left-half;  }
-.slide-in-from-top-\[48\%\] { animation-name: slide-in-from-left-half; }
-.slide-out-to-top-\[48\%\]  { animation-name: slide-out-to-left-half;  }
+
+/* ── Tabular nums for stat counters ─────────────── */
+.tabular-nums { font-variant-numeric: tabular-nums; }

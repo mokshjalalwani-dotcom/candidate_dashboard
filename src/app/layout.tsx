@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
-import { ApplicantStoreProvider } from '@/store/StoreContext';
 import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({
@@ -13,33 +12,43 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'TalentFlow — Candidate Management Dashboard',
-  description: 'A modern, recruiter-ready candidate management dashboard. Search, filter, and track internship applicants with ease.',
-  keywords: ['recruitment', 'candidates', 'dashboard', 'hiring', 'internship'],
+  description:
+    'A modern, recruiter-ready candidate management dashboard. Search, filter, sort and track internship applicants with ease.',
+  keywords: ['recruitment', 'candidates', 'dashboard', 'hiring', 'internship', 'talent'],
   authors: [{ name: 'TalentFlow' }],
+  openGraph: {
+    title: 'TalentFlow — Candidate Management Dashboard',
+    description: 'Track and manage internship applicants effortlessly.',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body className="min-h-screen bg-gray-50 font-sans antialiased dark:bg-gray-950">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange={false}>
-          <ApplicantStoreProvider>
-            {children}
-          </ApplicantStoreProvider>
+      <body className="min-h-screen bg-gray-50 font-sans antialiased dark:bg-gray-950 transition-colors duration-300">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          {children}
           <Toaster
             position="bottom-right"
             toastOptions={{
               duration: 3500,
               style: {
                 borderRadius: '12px',
-                background: '#1e1e2e',
-                color: '#e2e8f0',
+                background: '#18181b',
+                color: '#f4f4f5',
                 fontSize: '13px',
                 padding: '12px 16px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.24)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.32)',
+                border: '1px solid rgba(255,255,255,0.08)',
               },
-              success: { iconTheme: { primary: '#34d399', secondary: '#1e1e2e' } },
-              error: { iconTheme: { primary: '#f87171', secondary: '#1e1e2e' } },
+              success: { iconTheme: { primary: '#34d399', secondary: '#18181b' } },
+              error: { iconTheme: { primary: '#f87171', secondary: '#18181b' } },
             }}
           />
         </ThemeProvider>
@@ -47,4 +56,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-

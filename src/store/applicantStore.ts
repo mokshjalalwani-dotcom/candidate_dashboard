@@ -9,7 +9,7 @@ function loadLocal(): Applicant[] {
 }
 function saveLocal(a: Applicant[]) {
   if (typeof window === 'undefined') return;
-  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(a)); } catch {}
+  try { localStorage.setItem(LOCAL_KEY, JSON.stringify(a)); } catch { /* quota */ }
 }
 
 export interface ApplicantState {
@@ -46,12 +46,19 @@ export interface ApplicantActions {
 
 export type ApplicantStore = ApplicantState & ApplicantActions;
 
-export function createApplicantStore() {
+interface PreloadedState {
+  apiApplicants?: Applicant[];
+  isLoading?: boolean;
+  error?: string | null;
+}
+
+export function createApplicantStore(preloaded?: PreloadedState) {
   return createStore<ApplicantStore>()((set, get) => ({
-    apiApplicants: [],
+    // Seed from server-fetched data if provided
+    apiApplicants: preloaded?.apiApplicants ?? [],
     localApplicants: [],
-    isLoading: true,
-    error: null,
+    isLoading: preloaded ? false : true,
+    error: preloaded?.error ?? null,
     search: '',
     statusFilter: 'All',
     sortField: 'name',
